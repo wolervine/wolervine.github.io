@@ -8,16 +8,16 @@
   <style>
     :root {
       color-scheme: light;
-      --ink: #18202a;
-      --muted: #5f6b7a;
-      --paper: #fbfaf7;
-      --surface: #ffffff;
-      --line: #dde3ea;
+      --ink: #1c232b;
+      --muted: #5f6872;
+      --surface: rgba(255, 255, 255, 0.82);
+      --surface-strong: rgba(255, 255, 255, 0.92);
+      --line: rgba(44, 51, 58, 0.16);
       --accent: #0f766e;
       --accent-dark: #0b4f4a;
-      --accent-soft: #e4f4f1;
-      --gold: #b87918;
-      --shadow: 0 18px 45px rgba(24, 32, 42, 0.08);
+      --accent-soft: rgba(228, 244, 241, 0.9);
+      --gold: #a76812;
+      --shadow: 0 22px 60px rgba(24, 32, 42, 0.16);
     }
 
     * {
@@ -30,10 +30,20 @@
 
     body {
       margin: 0;
+      min-height: 100vh;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       line-height: 1.6;
       color: var(--ink);
-      background: var(--paper);
+      background: #e9e5dc url("assets/portfolio-background.jpg") center top / cover fixed no-repeat;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(90deg, rgba(247, 245, 238, 0.96) 0%, rgba(247, 245, 238, 0.79) 48%, rgba(247, 245, 238, 0.48) 100%);
+      pointer-events: none;
     }
 
     a {
@@ -49,9 +59,9 @@
       position: sticky;
       top: 0;
       z-index: 10;
-      border-bottom: 1px solid rgba(221, 227, 234, 0.85);
-      background: rgba(251, 250, 247, 0.92);
-      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+      background: rgba(248, 246, 240, 0.88);
+      backdrop-filter: blur(16px);
     }
 
     .nav {
@@ -64,8 +74,7 @@
 
     .brand {
       text-decoration: none;
-      font-weight: 800;
-      letter-spacing: 0;
+      font-weight: 850;
       font-size: 1.02rem;
     }
 
@@ -80,7 +89,7 @@
     .nav-links a {
       text-decoration: none;
       color: var(--muted);
-      font-weight: 700;
+      font-weight: 750;
       font-size: 0.92rem;
       padding: 8px 10px;
       border-radius: 8px;
@@ -94,24 +103,27 @@
     }
 
     .hero {
-      padding: 76px 0 48px;
-      border-bottom: 1px solid var(--line);
-      background:
-        radial-gradient(circle at top right, rgba(15, 118, 110, 0.13), transparent 30%),
-        linear-gradient(180deg, #ffffff 0%, var(--paper) 82%);
+      min-height: calc(100vh - 72px);
+      display: grid;
+      align-items: center;
+      padding: 72px 0 48px;
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.6fr);
-      gap: 42px;
-      align-items: center;
+      grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr);
+      gap: 28px;
+      align-items: end;
+    }
+
+    .hero-copy-block {
+      max-width: 780px;
     }
 
     .eyebrow {
       margin: 0 0 14px;
       color: var(--accent-dark);
-      font-weight: 800;
+      font-weight: 850;
       text-transform: uppercase;
       font-size: 0.78rem;
       letter-spacing: 0.12em;
@@ -125,13 +137,13 @@
     }
 
     h1 {
-      font-size: clamp(2.45rem, 6vw, 5.7rem);
-      max-width: 820px;
+      font-size: clamp(2.45rem, 6vw, 5.65rem);
+      max-width: 840px;
     }
 
     .hero-copy {
       margin: 24px 0 0;
-      max-width: 680px;
+      max-width: 670px;
       font-size: 1.15rem;
       color: var(--muted);
     }
@@ -152,7 +164,7 @@
       border-radius: 8px;
       border: 1px solid var(--accent);
       text-decoration: none;
-      font-weight: 800;
+      font-weight: 850;
     }
 
     .button.primary {
@@ -162,20 +174,27 @@
 
     .button.secondary {
       color: var(--accent-dark);
-      background: #ffffff;
+      background: rgba(255, 255, 255, 0.74);
     }
 
-    .hero-panel {
+    .panel,
+    .card,
+    .contact-band {
       background: var(--surface);
       border: 1px solid var(--line);
       border-radius: 8px;
       box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .panel {
       padding: 24px;
     }
 
-    .stat-list {
+    .stat-list,
+    .focus-list {
       display: grid;
-      gap: 18px;
+      gap: 14px;
       margin: 0;
       padding: 0;
       list-style: none;
@@ -183,25 +202,21 @@
 
     .stat-list strong {
       display: block;
-      font-size: 1.6rem;
       color: var(--accent-dark);
+      font-size: 1.45rem;
       line-height: 1;
     }
 
-    .stat-list span {
-      display: block;
-      margin-top: 6px;
+    .stat-list span,
+    .focus-list li,
+    .project-card p,
+    .skill-card p,
+    .about-copy p {
       color: var(--muted);
-      font-weight: 650;
     }
 
     .section {
       padding: 72px 0;
-    }
-
-    .section.alt {
-      background: #ffffff;
-      border-block: 1px solid var(--line);
     }
 
     .section-heading {
@@ -210,7 +225,7 @@
     }
 
     .section-heading h2 {
-      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-size: clamp(1.8rem, 3vw, 2.55rem);
     }
 
     .section-heading p:last-child {
@@ -227,17 +242,13 @@
     }
 
     .card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 8px;
       padding: 22px;
-      box-shadow: 0 10px 30px rgba(24, 32, 42, 0.05);
     }
 
     .project-card {
+      min-height: 260px;
       display: flex;
       flex-direction: column;
-      min-height: 260px;
     }
 
     .project-topline {
@@ -249,31 +260,14 @@
     }
 
     .tag {
-      display: inline-flex;
-      align-items: center;
       min-height: 28px;
       padding: 4px 9px;
       border-radius: 999px;
       background: var(--accent-soft);
       color: var(--accent-dark);
       font-size: 0.78rem;
-      font-weight: 800;
+      font-weight: 850;
       white-space: nowrap;
-    }
-
-    .project-card h3,
-    .skill-card h3 {
-      font-size: 1.2rem;
-    }
-
-    .project-card p,
-    .skill-card p,
-    .about-copy p {
-      color: var(--muted);
-    }
-
-    .project-card p {
-      margin: 14px 0 18px;
     }
 
     .project-meta {
@@ -288,33 +282,24 @@
     .project-meta span {
       color: var(--muted);
       font-size: 0.86rem;
-      font-weight: 700;
+      font-weight: 750;
     }
 
     .about-grid {
       display: grid;
-      grid-template-columns: minmax(0, 0.78fr) minmax(280px, 0.22fr);
+      grid-template-columns: minmax(0, 0.72fr) minmax(280px, 0.28fr);
       gap: 24px;
       align-items: start;
     }
 
     .about-copy {
-      font-size: 1.05rem;
-    }
-
-    .focus-list {
-      display: grid;
-      gap: 10px;
-      margin: 0;
-      padding: 0;
-      list-style: none;
+      padding: 28px;
     }
 
     .focus-list li {
       padding-left: 18px;
       position: relative;
-      color: var(--muted);
-      font-weight: 650;
+      font-weight: 700;
     }
 
     .focus-list li::before {
@@ -334,12 +319,15 @@
       gap: 24px;
       align-items: center;
       padding: 30px;
-      background: var(--ink);
+      background: rgba(28, 35, 43, 0.9);
       color: #ffffff;
-      border-radius: 8px;
     }
 
-    .contact-band p {
+    .contact-band .eyebrow {
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    .contact-band p:not(.eyebrow) {
       margin: 8px 0 0;
       color: rgba(255, 255, 255, 0.72);
     }
@@ -359,7 +347,7 @@
       border-radius: 8px;
       color: #ffffff;
       text-decoration: none;
-      font-weight: 800;
+      font-weight: 850;
       border: 1px solid rgba(255, 255, 255, 0.24);
     }
 
@@ -367,18 +355,29 @@
       padding: 26px 0;
       color: var(--muted);
       font-size: 0.92rem;
+      background: rgba(248, 246, 240, 0.76);
       border-top: 1px solid var(--line);
+      backdrop-filter: blur(12px);
     }
 
     @media (max-width: 860px) {
-      .hero-grid,
-      .about-grid {
-        grid-template-columns: 1fr;
+      body {
+        background-attachment: scroll;
       }
 
+      body::before {
+        background: rgba(247, 245, 238, 0.84);
+      }
+
+      .hero-grid,
+      .about-grid,
       .project-grid,
       .skill-grid {
         grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
       }
 
       .contact-band {
@@ -407,10 +406,7 @@
         justify-content: flex-start;
       }
 
-      .hero {
-        padding: 48px 0 34px;
-      }
-
+      .hero,
       .section {
         padding: 52px 0;
       }
@@ -433,7 +429,7 @@
   <main id="top">
     <section class="hero">
       <div class="container hero-grid">
-        <div>
+        <div class="hero-copy-block">
           <p class="eyebrow">Student portfolio</p>
           <h1>Building thoughtful projects with code, math, and technical computing.</h1>
           <p class="hero-copy">
@@ -445,20 +441,11 @@
           </div>
         </div>
 
-        <aside class="hero-panel" aria-label="Portfolio highlights">
+        <aside class="panel" aria-label="Portfolio highlights">
           <ul class="stat-list">
-            <li>
-              <strong>Python</strong>
-              <span>Data, scripts, analysis, and problem solving</span>
-            </li>
-            <li>
-              <strong>MATLAB</strong>
-              <span>Numerical experiments and technical visualization</span>
-            </li>
-            <li>
-              <strong>Mathematica</strong>
-              <span>Symbolic work, notebooks, and exploration</span>
-            </li>
+            <li><strong>Python</strong><span>Data, scripts, analysis, and problem solving</span></li>
+            <li><strong>MATLAB</strong><span>Numerical experiments and technical visualization</span></li>
+            <li><strong>Mathematica</strong><span>Symbolic work, notebooks, and exploration</span></li>
           </ul>
         </aside>
       </div>
@@ -469,53 +456,32 @@
         <div class="section-heading">
           <p class="eyebrow">Selected work</p>
           <h2>Projects with a clear question, method, and result.</h2>
-          <p>Use this area to feature your strongest work. Each project card is written so it can be replaced with a real repository, notebook, lab, or class project as your portfolio grows.</p>
+          <p>Use this area to feature your strongest work. Each project card can be replaced with a real repository, notebook, lab, or class project as your portfolio grows.</p>
         </div>
 
         <div class="project-grid">
           <article class="card project-card">
-            <div class="project-topline">
-              <h3>Python Analysis Project</h3>
-              <span class="tag">Python</span>
-            </div>
+            <div class="project-topline"><h3>Python Analysis Project</h3><span class="tag">Python</span></div>
             <p>A programming project focused on cleaning data, testing ideas, building plots, or automating a repeated technical task.</p>
-            <div class="project-meta">
-              <span>Data analysis</span>
-              <span>Visualization</span>
-              <span>Documentation</span>
-            </div>
+            <div class="project-meta"><span>Data analysis</span><span>Visualization</span><span>Documentation</span></div>
           </article>
 
           <article class="card project-card">
-            <div class="project-topline">
-              <h3>MATLAB Simulation</h3>
-              <span class="tag">MATLAB</span>
-            </div>
+            <div class="project-topline"><h3>MATLAB Simulation</h3><span class="tag">MATLAB</span></div>
             <p>A technical computing project that models a system, compares parameters, and presents results with clear figures.</p>
-            <div class="project-meta">
-              <span>Simulation</span>
-              <span>Numerical methods</span>
-              <span>Plots</span>
-            </div>
+            <div class="project-meta"><span>Simulation</span><span>Numerical methods</span><span>Plots</span></div>
           </article>
 
           <article class="card project-card">
-            <div class="project-topline">
-              <h3>Mathematics Notebook</h3>
-              <span class="tag">Mathematica</span>
-            </div>
+            <div class="project-topline"><h3>Mathematics Notebook</h3><span class="tag">Mathematica</span></div>
             <p>A notebook-based exploration using symbolic tools, derivations, and visual checks to understand a mathematical idea.</p>
-            <div class="project-meta">
-              <span>Symbolic math</span>
-              <span>Derivations</span>
-              <span>Exploration</span>
-            </div>
+            <div class="project-meta"><span>Symbolic math</span><span>Derivations</span><span>Exploration</span></div>
           </article>
         </div>
       </div>
     </section>
 
-    <section id="skills" class="section alt">
+    <section id="skills" class="section">
       <div class="container">
         <div class="section-heading">
           <p class="eyebrow">Tools and interests</p>
@@ -523,35 +489,22 @@
         </div>
 
         <div class="skill-grid">
-          <article class="card skill-card">
-            <h3>Programming</h3>
-            <p>Python, scripting, data analysis, plotting, algorithms, and project organization.</p>
-          </article>
-          <article class="card skill-card">
-            <h3>Technical Computing</h3>
-            <p>MATLAB for simulations, numerical methods, visualizations, and applied problem solving.</p>
-          </article>
-          <article class="card skill-card">
-            <h3>Mathematics</h3>
-            <p>Mathematica notebooks, symbolic work, derivations, modeling, and mathematical exploration.</p>
-          </article>
+          <article class="card skill-card"><h3>Programming</h3><p>Python, scripting, data analysis, plotting, algorithms, and project organization.</p></article>
+          <article class="card skill-card"><h3>Technical Computing</h3><p>MATLAB for simulations, numerical methods, visualizations, and applied problem solving.</p></article>
+          <article class="card skill-card"><h3>Mathematics</h3><p>Mathematica notebooks, symbolic work, derivations, modeling, and mathematical exploration.</p></article>
         </div>
       </div>
     </section>
 
     <section id="about" class="section">
       <div class="container about-grid">
-        <div class="about-copy">
+        <div class="card about-copy">
           <div class="section-heading">
             <p class="eyebrow">About</p>
             <h2>Curious, technical, and project driven.</h2>
           </div>
-          <p>
-            I am a student interested in STEM, technical computing, mathematics, and project-based learning. This site highlights projects I have completed in Python, MATLAB, and Mathematica, along with documentation that explains my process, results, and takeaways.
-          </p>
-          <p>
-            My goal is to keep building a portfolio that shows how I think: starting with a question, choosing the right tools, testing the work, and explaining the result clearly.
-          </p>
+          <p>I am a student interested in STEM, technical computing, mathematics, and project-based learning. This site highlights projects I have completed in Python, MATLAB, and Mathematica, along with documentation that explains my process, results, and takeaways.</p>
+          <p>My goal is to keep building a portfolio that shows how I think: starting with a question, choosing the right tools, testing the work, and explaining the result clearly.</p>
         </div>
 
         <aside class="card">
@@ -566,7 +519,7 @@
       </div>
     </section>
 
-    <section id="contact" class="section alt">
+    <section id="contact" class="section">
       <div class="container">
         <div class="contact-band">
           <div>
