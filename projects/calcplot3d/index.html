@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="CalcPlot3D scripts written by Thomas Valenzuela for Calculus 3.">
+  <title>CalcPlot3D Scripts | Thomas Valenzuela</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #18212a;
+      --muted: #5b6570;
+      --paper: rgba(249, 247, 241, 0.9);
+      --paper-strong: rgba(255, 255, 255, 0.94);
+      --line: rgba(36, 45, 54, 0.16);
+      --accent: #0f766e;
+      --accent-dark: #0b4f4a;
+      --gold: #a76812;
+      --blueprint: #293241;
+      --shadow: 0 24px 70px rgba(24, 32, 42, 0.17);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+      color: var(--ink);
+      background: #e9e5dc url("../../assets/mathBackground.png") center top / cover fixed no-repeat;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background: linear-gradient(90deg, rgba(247, 245, 238, 0.97) 0%, rgba(247, 245, 238, 0.82) 48%, rgba(247, 245, 238, 0.58) 100%);
+      pointer-events: none;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .page-shell {
+      width: min(1160px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 36px 0 60px;
+    }
+
+    .topbar {
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 34px;
+    }
+
+    .back-link,
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      border-radius: 8px;
+      font-weight: 850;
+      text-decoration: none;
+    }
+
+    .back-link {
+      color: var(--accent-dark);
+    }
+
+    .mini-nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .mini-nav a {
+      padding: 8px 10px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(320px, 0.68fr);
+      gap: 28px;
+      align-items: stretch;
+      min-height: 520px;
+    }
+
+    .hero-copy,
+    .plot-panel,
+    .script-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .hero-copy {
+      padding: clamp(30px, 5vw, 56px);
+      background: var(--paper);
+      display: grid;
+      align-content: center;
+    }
+
+    .eyebrow {
+      margin: 0 0 14px;
+      color: var(--accent-dark);
+      font-weight: 850;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      line-height: 1.08;
+    }
+
+    h1 {
+      max-width: 720px;
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      font-size: clamp(3rem, 7vw, 5.7rem);
+      font-weight: 700;
+    }
+
+    h2 {
+      font-size: clamp(1.75rem, 3vw, 2.45rem);
+    }
+
+    h3 {
+      font-size: 1.18rem;
+    }
+
+    p {
+      color: var(--muted);
+    }
+
+    .hero-text {
+      max-width: 690px;
+      margin: 22px 0 0;
+      font-size: 1.12rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .button {
+      padding: 10px 14px;
+      border: 1px solid var(--accent);
+    }
+
+    .button.primary {
+      color: #ffffff;
+      background: var(--accent);
+    }
+
+    .button.secondary {
+      color: var(--accent-dark);
+      background: rgba(255, 255, 255, 0.78);
+    }
+
+    .plot-panel {
+      min-height: 420px;
+      padding: 24px;
+      background: rgba(24, 33, 42, 0.92);
+      color: #ffffff;
+      overflow: hidden;
+      position: relative;
+      display: grid;
+      align-content: end;
+    }
+
+    .plot-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+      background-size: 36px 36px;
+      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.95), transparent 88%);
+      pointer-events: none;
+    }
+
+    .plot-svg {
+      position: absolute;
+      inset: 6% -8% auto auto;
+      width: 112%;
+      max-width: 660px;
+      height: auto;
+      opacity: 0.88;
+    }
+
+    .formula-stack {
+      position: relative;
+      display: grid;
+      gap: 10px;
+      max-width: 360px;
+    }
+
+    .formula-chip {
+      display: inline-flex;
+      width: fit-content;
+      padding: 7px 10px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 8px;
+      color: rgba(255, 255, 255, 0.82);
+      background: rgba(255, 255, 255, 0.07);
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      font-size: 1.05rem;
+    }
+
+    .section {
+      padding-top: 58px;
+    }
+
+    .section-heading {
+      max-width: 760px;
+      margin-bottom: 22px;
+    }
+
+    .section-heading p:last-child {
+      margin: 12px 0 0;
+      font-size: 1.04rem;
+    }
+
+    .script-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .script-card {
+      min-width: 0;
+      background: var(--paper-strong);
+      overflow: hidden;
+    }
+
+    .script-card-header {
+      padding: 22px;
+      border-bottom: 1px solid var(--line);
+      display: grid;
+      gap: 14px;
+    }
+
+    .script-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .script-meta li {
+      min-height: 28px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      color: var(--accent-dark);
+      background: rgba(228, 244, 241, 0.9);
+      font-size: 0.78rem;
+      font-weight: 850;
+    }
+
+    .script-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .script-preview {
+      min-height: 420px;
+      max-height: 520px;
+      margin: 0;
+      padding: 20px;
+      overflow: auto;
+      color: #e9f7f4;
+      background: #18212a;
+      font: 0.84rem/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      tab-size: 2;
+      white-space: pre;
+    }
+
+    .note-band {
+      margin-top: 24px;
+      padding: 20px 22px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.76);
+      color: var(--muted);
+    }
+
+    @media (max-width: 920px) {
+      body {
+        background-attachment: scroll;
+      }
+
+      .hero,
+      .script-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .plot-panel {
+        min-height: 360px;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .page-shell {
+        width: min(100% - 28px, 1160px);
+        padding-top: 20px;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .mini-nav {
+        justify-content: flex-start;
+      }
+
+      .hero-copy,
+      .plot-panel,
+      .script-card-header {
+        padding: 20px;
+      }
+
+      .script-preview {
+        max-height: 420px;
+        font-size: 0.78rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page-shell">
+    <header class="topbar">
+      <a class="back-link" href="../../#projects">Back to portfolio</a>
+      <nav class="mini-nav" aria-label="CalcPlot3D scripts navigation">
+        <a href="#lines-and-planes">Lines and Planes</a>
+        <a href="#hyperbolic-paraboloid">Hyperbolic Paraboloid</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Calculus 3 Showcase</p>
+        <h1>CalcPlot3D Scripts</h1>
+        <p class="hero-text">These are finished CalcPlot3D setup scripts from my Calculus 3 work, built to visualize geometry in three dimensions instead of leaving it flat on the page.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#scripts">View Scripts</a>
+          <a class="button secondary" href="scripts/lines-and-planes.txt" target="_blank" rel="noopener noreferrer">Lines and Planes File</a>
+          <a class="button secondary" href="scripts/hyperbolic-paraboloid.txt" target="_blank" rel="noopener noreferrer">Hyperbolic Paraboloid File</a>
+        </div>
+      </div>
+
+      <aside class="plot-panel" aria-label="Stylized CalcPlot3D wireframe visual">
+        <svg class="plot-svg" viewBox="0 0 640 430" role="img" aria-label="Wireframe surface and coordinate axes">
+          <defs>
+            <linearGradient id="surfaceLine" x1="0" x2="1">
+              <stop offset="0%" stop-color="#7dd3c7"/>
+              <stop offset="55%" stop-color="#f6d186"/>
+              <stop offset="100%" stop-color="#ffffff"/>
+            </linearGradient>
+          </defs>
+          <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M84 326 L554 326" stroke="#ffffff" stroke-opacity="0.32" stroke-width="2"/>
+            <path d="M320 370 L320 56" stroke="#ffffff" stroke-opacity="0.32" stroke-width="2"/>
+            <path d="M188 382 L454 142" stroke="#ffffff" stroke-opacity="0.24" stroke-width="2"/>
+            <path d="M112 300 C210 228 292 232 402 302 C460 338 520 330 582 286" stroke="#7dd3c7" stroke-width="3"/>
+            <path d="M112 356 C214 270 304 274 422 344 C486 382 546 370 600 326" stroke="#7dd3c7" stroke-opacity="0.62" stroke-width="2"/>
+            <path d="M90 246 C190 204 278 208 394 246 C476 274 542 266 606 226" stroke="#7dd3c7" stroke-opacity="0.48" stroke-width="2"/>
+            <path d="M156 172 C236 190 316 214 402 252 C462 278 510 286 552 276" stroke="url(#surfaceLine)" stroke-width="3"/>
+            <path d="M168 360 C206 288 242 234 280 198 C326 154 370 134 422 126" stroke="#f6d186" stroke-opacity="0.8" stroke-width="2"/>
+            <path d="M230 374 C260 298 292 242 326 204 C366 158 410 132 466 116" stroke="#f6d186" stroke-opacity="0.55" stroke-width="2"/>
+            <path d="M296 376 C316 300 342 242 374 196 C410 146 452 116 510 94" stroke="#f6d186" stroke-opacity="0.42" stroke-width="2"/>
+            <path d="M120 144 L220 96 L332 124 L270 204 Z" stroke="#ffffff" stroke-opacity="0.48" stroke-width="2"/>
+            <path d="M220 96 L270 204 M332 124 L120 144" stroke="#ffffff" stroke-opacity="0.22"/>
+          </g>
+          <g fill="#ffffff" fill-opacity="0.76" font-family="Georgia, serif" font-size="22">
+            <text x="568" y="318">x</text>
+            <text x="330" y="72">z</text>
+            <text x="458" y="150">y</text>
+          </g>
+        </svg>
+
+        <div class="formula-stack">
+          <span class="formula-chip">r(t) = &lt;1 + t, 2 + t, 3 + t&gt;</span>
+          <span class="formula-chip">z = -(4/9)t²</span>
+          <span class="formula-chip">surface: hyperbolic paraboloid</span>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" id="scripts">
+      <div class="section-heading">
+        <p class="eyebrow">Script Library</p>
+        <h2>Two finished scenes for exploring 3D calculus.</h2>
+        <p>Open either text file directly, or scan the source preview below.</p>
+      </div>
+
+      <div class="script-grid">
+        <article class="script-card" id="lines-and-planes">
+          <div class="script-card-header">
+            <div>
+              <p class="eyebrow">Scene 01</p>
+              <h3>Lines and Planes</h3>
+              <p>A CalcPlot3D setup for visualizing parametric lines, vector equations, and geometry in space.</p>
+            </div>
+            <ul class="script-meta">
+              <li>Lines</li>
+              <li>Vectors</li>
+              <li>Planes</li>
+            </ul>
+            <div class="script-actions">
+              <a class="button primary" href="scripts/lines-and-planes.txt" target="_blank" rel="noopener noreferrer">Open Script</a>
+              <a class="button secondary" href="scripts/lines-and-planes.txt" download>Download</a>
+            </div>
+          </div>
+          <pre class="script-preview" data-script-src="scripts/lines-and-planes.txt">Loading script preview...</pre>
+        </article>
+
+        <article class="script-card" id="hyperbolic-paraboloid">
+          <div class="script-card-header">
+            <div>
+              <p class="eyebrow">Scene 02</p>
+              <h3>Hyperbolic Paraboloid</h3>
+              <p>A quadric-surface scene built around a saddle-shaped surface and its supporting cross-sections.</p>
+            </div>
+            <ul class="script-meta">
+              <li>Quadric Surface</li>
+              <li>Cross-Sections</li>
+              <li>Auto Spin</li>
+            </ul>
+            <div class="script-actions">
+              <a class="button primary" href="scripts/hyperbolic-paraboloid.txt" target="_blank" rel="noopener noreferrer">Open Script</a>
+              <a class="button secondary" href="scripts/hyperbolic-paraboloid.txt" download>Download</a>
+            </div>
+          </div>
+          <pre class="script-preview" data-script-src="scripts/hyperbolic-paraboloid.txt">Loading script preview...</pre>
+        </article>
+      </div>
+
+      <p class="note-band">These scripts are posted as plain text so they can be inspected, copied, downloaded, and loaded into CalcPlot3D.</p>
+    </section>
+  </main>
+
+  <script>
+    for (const preview of document.querySelectorAll("[data-script-src]")) {
+      fetch(preview.dataset.scriptSrc)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Preview unavailable");
+          }
+          return response.text();
+        })
+        .then((text) => {
+          preview.textContent = text;
+        })
+        .catch(() => {
+          preview.textContent = "Open the script file above to view the source.";
+        });
+    }
+  </script>
+</body>
+</html>
