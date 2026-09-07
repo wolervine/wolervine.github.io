@@ -183,54 +183,30 @@
     }
 
     .plot-panel {
-      min-height: 420px;
-      padding: 24px;
-      background: rgba(24, 33, 42, 0.92);
-      color: #ffffff;
-      overflow: hidden;
-      position: relative;
+      margin: 0;
+      padding: 14px;
+      background: rgba(255, 255, 255, 0.88);
       display: grid;
-      align-content: end;
+      gap: 14px;
     }
 
-    .plot-panel::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
-      background-size: 36px 36px;
-      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.95), transparent 88%);
-      pointer-events: none;
-    }
-
-    .plot-svg {
-      position: absolute;
-      inset: 6% -8% auto auto;
-      width: 112%;
-      max-width: 660px;
-      height: auto;
-      opacity: 0.88;
-    }
-
-    .formula-stack {
-      position: relative;
-      display: grid;
-      gap: 10px;
-      max-width: 360px;
-    }
-
-    .formula-chip {
-      display: inline-flex;
-      width: fit-content;
-      padding: 7px 10px;
-      border: 1px solid rgba(255, 255, 255, 0.18);
+    .plot-panel img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1;
+      border: 1px solid rgba(24, 33, 42, 0.12);
       border-radius: 8px;
-      color: rgba(255, 255, 255, 0.82);
-      background: rgba(255, 255, 255, 0.07);
-      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
-      font-size: 1.05rem;
+      background: #ffffff;
+      object-fit: cover;
+    }
+
+    .plot-panel figcaption {
+      margin: 0;
+      padding: 0 4px 2px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      font-weight: 750;
+      line-height: 1.45;
     }
 
     .section {
@@ -324,7 +300,8 @@
       }
 
       .plot-panel {
-        min-height: 360px;
+        max-width: 560px;
+        margin: 0 auto;
       }
     }
 
@@ -378,42 +355,11 @@
         </div>
       </div>
 
-      <aside class="plot-panel" aria-label="Stylized CalcPlot3D wireframe visual">
-        <svg class="plot-svg" viewBox="0 0 640 430" role="img" aria-label="Wireframe surface and coordinate axes">
-          <defs>
-            <linearGradient id="surfaceLine" x1="0" x2="1">
-              <stop offset="0%" stop-color="#7dd3c7"/>
-              <stop offset="55%" stop-color="#f6d186"/>
-              <stop offset="100%" stop-color="#ffffff"/>
-            </linearGradient>
-          </defs>
-          <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M84 326 L554 326" stroke="#ffffff" stroke-opacity="0.32" stroke-width="2"/>
-            <path d="M320 370 L320 56" stroke="#ffffff" stroke-opacity="0.32" stroke-width="2"/>
-            <path d="M188 382 L454 142" stroke="#ffffff" stroke-opacity="0.24" stroke-width="2"/>
-            <path d="M112 300 C210 228 292 232 402 302 C460 338 520 330 582 286" stroke="#7dd3c7" stroke-width="3"/>
-            <path d="M112 356 C214 270 304 274 422 344 C486 382 546 370 600 326" stroke="#7dd3c7" stroke-opacity="0.62" stroke-width="2"/>
-            <path d="M90 246 C190 204 278 208 394 246 C476 274 542 266 606 226" stroke="#7dd3c7" stroke-opacity="0.48" stroke-width="2"/>
-            <path d="M156 172 C236 190 316 214 402 252 C462 278 510 286 552 276" stroke="url(#surfaceLine)" stroke-width="3"/>
-            <path d="M168 360 C206 288 242 234 280 198 C326 154 370 134 422 126" stroke="#f6d186" stroke-opacity="0.8" stroke-width="2"/>
-            <path d="M230 374 C260 298 292 242 326 204 C366 158 410 132 466 116" stroke="#f6d186" stroke-opacity="0.55" stroke-width="2"/>
-            <path d="M296 376 C316 300 342 242 374 196 C410 146 452 116 510 94" stroke="#f6d186" stroke-opacity="0.42" stroke-width="2"/>
-            <path d="M120 144 L220 96 L332 124 L270 204 Z" stroke="#ffffff" stroke-opacity="0.48" stroke-width="2"/>
-            <path d="M220 96 L270 204 M332 124 L120 144" stroke="#ffffff" stroke-opacity="0.22"/>
-          </g>
-          <g fill="#ffffff" fill-opacity="0.76" font-family="Georgia, serif" font-size="22">
-            <text x="568" y="318">x</text>
-            <text x="330" y="72">z</text>
-            <text x="458" y="150">y</text>
-          </g>
-        </svg>
-
-        <div class="formula-stack">
-          <span class="formula-chip">r(t) = &lt;1 + t, 2 + t, 3 + t&gt;</span>
-          <span class="formula-chip">z = -(4/9)t²</span>
-          <span class="formula-chip">surface: hyperbolic paraboloid</span>
-        </div>
-      </aside>
+      <figure class="plot-panel">
+        <img src="../../assets/calcplot3d/hyperbolic-paraboloid-wireframe.png" alt="Wireframe CalcPlot3D output from the hyperbolic paraboloid script">
+        <img src="../../assets/calcplot3d/hyperbolic-paraboloid-surface.png" alt="Surface plot CalcPlot3D output from the hyperbolic paraboloid script">
+        <figcaption>These images were created using the hyperbolic paraboloid script.</figcaption>
+      </figure>
     </section>
 
     <section class="section" id="scripts">
