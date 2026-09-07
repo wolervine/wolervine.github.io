@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="MATLAB project folder for Thomas Valenzuela's portfolio, including an in-progress capstone project.">
+  <title>MATLAB Projects | Thomas Valenzuela</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #1c232b;
+      --muted: #5f6872;
+      --surface: rgba(255, 255, 255, 0.86);
+      --line: rgba(44, 51, 58, 0.16);
+      --accent: #0f766e;
+      --accent-dark: #0b4f4a;
+      --accent-soft: rgba(228, 244, 241, 0.9);
+      --shadow: 0 22px 60px rgba(24, 32, 42, 0.16);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+      color: var(--ink);
+      background: #e9e5dc url("../../assets/mathBackground.png") center top / cover fixed no-repeat;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: rgba(247, 245, 238, 0.86);
+      pointer-events: none;
+    }
+
+    .page {
+      width: min(960px, calc(100% - 40px));
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 48px 0;
+      display: grid;
+      align-content: center;
+      gap: 22px;
+    }
+
+    .back-link,
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      border-radius: 8px;
+      font-weight: 850;
+      text-decoration: none;
+    }
+
+    .back-link {
+      justify-self: start;
+      color: var(--accent-dark);
+    }
+
+    .panel,
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .panel {
+      padding: clamp(28px, 5vw, 48px);
+    }
+
+    .eyebrow {
+      margin: 0 0 14px;
+      color: var(--accent-dark);
+      font-weight: 850;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+    }
+
+    h1,
+    h2 {
+      margin: 0;
+      line-height: 1.08;
+    }
+
+    h1 {
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      font-size: clamp(2.8rem, 7vw, 5.2rem);
+    }
+
+    p {
+      max-width: 700px;
+      color: var(--muted);
+    }
+
+    .card {
+      margin-top: 28px;
+      padding: 22px;
+    }
+
+    .button {
+      margin-top: 8px;
+      padding: 9px 14px;
+      color: #ffffff;
+      background: var(--accent);
+      border: 1px solid var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <a class="back-link" href="../../#projects">Back to portfolio</a>
+
+    <section class="panel">
+      <p class="eyebrow">MATLAB Projects</p>
+      <h1>Under Construction</h1>
+      <p>This project folder is being built out. My in-progress capstone project is available below.</p>
+
+      <article class="card">
+        <h2>In-Progress Capstone Project</h2>
+        <p>PDF draft for my current capstone work.</p>
+        <a class="button" href="capstone-project.pdf" target="_blank" rel="noopener noreferrer">Open Capstone PDF</a>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
