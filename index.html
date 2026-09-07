@@ -213,6 +213,7 @@
     .stat-list span,
     .focus-list li,
     .project-card p,
+    .certificate-card p,
     .skill-card p,
     .about-copy p {
       color: var(--muted);
@@ -238,6 +239,7 @@
     }
 
     .project-grid,
+    .certificate-grid,
     .skill-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -252,6 +254,18 @@
       min-height: 260px;
       display: flex;
       flex-direction: column;
+    }
+
+    .certificate-card {
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .certificate-card .button {
+      align-self: flex-start;
+      margin-top: auto;
     }
 
     .project-topline {
@@ -379,6 +393,7 @@
       .hero-grid,
       .about-grid,
       .project-grid,
+      .certificate-grid,
       .skill-grid {
         grid-template-columns: 1fr;
       }
@@ -431,6 +446,7 @@
       <nav class="nav-links">
         <a href="#projects">Projects</a>
         <a href="#skills">Skills</a>
+        <a href="#certificates">Certificates</a>
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -503,6 +519,36 @@
           <article class="card skill-card"><h3>Technical Computing</h3><p>MATLAB for simulations, numerical methods, visualizations, and applied problem solving.</p></article>
           <article class="card skill-card"><h3>Mathematics</h3><p>Mathematica notebooks, symbolic work, derivations, modeling, and mathematical exploration.</p></article>
           <article class="card skill-card"><h3>Programming</h3><p>Python, scripting, data analysis, plotting, algorithms, and project organization.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="certificates" class="section">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Certificates</p>
+          <h2>Credentials and completed learning.</h2>
+          <p>These certificates are available as direct links for teachers, recommenders, and college application reviewers.</p>
+        </div>
+
+        <div class="certificate-grid">
+          <article class="card certificate-card" id="bjj-blue-belt-certificate">
+            <h3>BJJ Blue Belt Certificate</h3>
+            <p>Brazilian Jiu-Jitsu blue belt certificate.</p>
+            <a class="button secondary" href="certificates/bjj-blue-belt.pdf" target="_blank" rel="noopener noreferrer">Open Certificate</a>
+          </article>
+
+          <article class="card certificate-card" id="joy-of-coding-certificate">
+            <h3>Joy of Coding Certificate</h3>
+            <p>University of Michigan Joy of Coding certificate.</p>
+            <a class="button secondary" href="certificates/joy-of-coding.pdf" target="_blank" rel="noopener noreferrer">Open Certificate</a>
+          </article>
+
+          <article class="card certificate-card" id="joy-of-coding-meta-certificate">
+            <h3>Joy of Coding Meta Certificate</h3>
+            <p>Additional University of Michigan Joy of Coding certificate.</p>
+            <a class="button secondary" href="certificates/joy-of-coding-meta.pdf" target="_blank" rel="noopener noreferrer">Open Certificate</a>
+          </article>
         </div>
       </div>
     </section>
